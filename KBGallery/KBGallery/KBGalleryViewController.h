@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *fotoGallery;
 @property (weak, nonatomic) IBOutlet UIScrollView *thumbsGallery;
 @property (weak, nonatomic) IBOutlet UIPageControl *fotoPageControl;
+@property (strong, nonatomic) NSMutableArray *fotos_arr;
 
 - (void)foto_tapped:(UITapGestureRecognizer *) gesture;
 - (void)thumb_tapped:(UITapGestureRecognizer *) gesture;
