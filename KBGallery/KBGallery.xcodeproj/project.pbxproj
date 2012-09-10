@@ -15,6 +15,8 @@
 		956B7F7215F7B341005AFDF3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 956B7F7115F7B341005AFDF3 /* main.m */; };
 		956B7F7615F7B341005AFDF3 /* KBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 956B7F7515F7B341005AFDF3 /* KBAppDelegate.m */; };
 		956B7F7915F7B341005AFDF3 /* KBGallery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 956B7F7715F7B341005AFDF3 /* KBGallery.xcdatamodeld */; };
+		9574BB4715FDC22F00FEC8BC /* KBGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */; };
+		9574BB4815FDC22F00FEC8BC /* KBGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,9 @@
 		956B7F7415F7B341005AFDF3 /* KBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBAppDelegate.h; sourceTree = "<group>"; };
 		956B7F7515F7B341005AFDF3 /* KBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBAppDelegate.m; sourceTree = "<group>"; };
 		956B7F7815F7B341005AFDF3 /* KBGallery.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KBGallery.xcdatamodel; sourceTree = "<group>"; };
+		9574BB4415FDC22F00FEC8BC /* KBGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBGalleryViewController.h; sourceTree = "<group>"; };
+		9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBGalleryViewController.m; sourceTree = "<group>"; };
+		9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KBGalleryViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +87,9 @@
 				956B7F7515F7B341005AFDF3 /* KBAppDelegate.m */,
 				956B7F7715F7B341005AFDF3 /* KBGallery.xcdatamodeld */,
 				956B7F6C15F7B341005AFDF3 /* Supporting Files */,
+				9574BB4415FDC22F00FEC8BC /* KBGalleryViewController.h */,
+				9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */,
+				9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */,
 			);
 			path = KBGallery;
 			sourceTree = "<group>";
@@ -150,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				956B7F7015F7B341005AFDF3 /* InfoPlist.strings in Resources */,
+				9574BB4815FDC22F00FEC8BC /* KBGalleryViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +172,7 @@
 				956B7F7215F7B341005AFDF3 /* main.m in Sources */,
 				956B7F7615F7B341005AFDF3 /* KBAppDelegate.m in Sources */,
 				956B7F7915F7B341005AFDF3 /* KBGallery.xcdatamodeld in Sources */,
+				9574BB4715FDC22F00FEC8BC /* KBGalleryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +245,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KBGallery/KBGallery-Prefix.pch";
 				INFOPLIST_FILE = "KBGallery/KBGallery-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -246,6 +257,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KBGallery/KBGallery-Prefix.pch";
 				INFOPLIST_FILE = "KBGallery/KBGallery-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -270,6 +282,7 @@
 				956B7F7E15F7B341005AFDF3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

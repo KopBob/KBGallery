@@ -8,6 +8,8 @@
 
 #import "KBAppDelegate.h"
 
+#import "KBGalleryViewController.h"
+
 @implementation KBAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -18,7 +20,10 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    
+    KBGalleryViewController *gallery = [[KBGalleryViewController alloc] initWithNibName:@"KBGalleryViewController" bundle:nil];
+        
+    [self.window setRootViewController:gallery];
     [self.window makeKeyAndVisible];
     return YES;
 }
