@@ -21,7 +21,17 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    KBGalleryViewController *gallery = [[KBGalleryViewController alloc] initWithNibName:@"KBGalleryViewController" bundle:nil];
+    
+    NSArray *test = [[NSArray alloc] initWithObjects:
+     @"http://cs411029.userapi.com/v411029554/4f36/5PMbyN3AguI.jpg",
+     @"http://cs411029.userapi.com/v411029554/4f3d/uK2BwS8Ch6g.jpg",
+     @"http://cs411029.userapi.com/v411029554/4f44/1L7AS6jtC7w.jpg",
+     @"http://cs411029.userapi.com/v411029554/4f4b/kokt7Q5fbNk.jpg",
+     @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
+     @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
+     @"http://cs411029.userapi.com/v411029554/4f59/8FWzF1T3F-Q.jpg",nil];
+    
+    KBGalleryViewController *gallery = [[KBGalleryViewController alloc] initWithFotoArray:test];
             
     [self.window setRootViewController:gallery];
     [self.window makeKeyAndVisible];

@@ -27,4 +27,6 @@
 - (void)thumb_tapped:(UITapGestureRecognizer *) gesture;
 
 
+- (id)initWithFotoArray:(NSArray *) foto_arr;
+
 @end

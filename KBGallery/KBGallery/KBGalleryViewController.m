@@ -241,6 +241,17 @@
 #pragma mark -
 #pragma mark - ViewController Methods
 
+- (id) initWithFotoArray:(NSArray *)foto_arr{
+    self = [self initWithNibName:@"KBGalleryViewController" bundle:nil];
+    
+    if (self) {
+        self.fotos_arr = [[NSMutableArray alloc] initWithArray:foto_arr];
+        current_foto = 0;
+    }
+    
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -258,7 +269,7 @@
                           @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
                           @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
                           @"http://cs411029.userapi.com/v411029554/4f59/8FWzF1T3F-Q.jpg",nil];
-        current_foto = 0;
+        
     }
     return self;
 }
