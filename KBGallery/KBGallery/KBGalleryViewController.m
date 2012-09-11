@@ -25,30 +25,6 @@
 
 @synthesize fotos_arr;
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-        fotos_view_arr = [[NSMutableArray alloc] initWithCapacity:8];
-        thumbs_view_arr = [[NSMutableArray alloc] initWithCapacity:8];
-        
-        
-        self.fotos_arr = [[NSMutableArray alloc] initWithObjects:
-                          @"http://cs411029.userapi.com/v411029554/4f36/5PMbyN3AguI.jpg",
-                          @"http://cs411029.userapi.com/v411029554/4f3d/uK2BwS8Ch6g.jpg",
-                          @"http://cs411029.userapi.com/v411029554/4f44/1L7AS6jtC7w.jpg",
-                          @"http://cs411029.userapi.com/v411029554/4f4b/kokt7Q5fbNk.jpg",
-                          @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
-                          @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
-                          @"http://cs411029.userapi.com/v411029554/4f59/8FWzF1T3F-Q.jpg",nil];
-        current_foto = 0;
-    }
-    return self;
-}
-
 - (void) setupTestViews {
     
     int images_number = 7;
@@ -59,8 +35,7 @@
     
     CGRect foto_rect = CGRectMake(0, 0, 320, 400);
     CGRect thumb_rect = CGRectMake(0, 0, 80, 60);
-    
-    
+
     
     for (int i = 0; i < images_number; i++) {
         
@@ -149,8 +124,8 @@
         
         
 //        if (i % 2 == 0) {
-            foto_view.backgroundColor   = [UIColor clearColor];
-            thumb_view.backgroundColor  = [UIColor clearColor];
+            foto_view.backgroundColor   = [UIColor blackColor];
+            thumb_view.backgroundColor  = [UIColor blackColor];
 //        } else {
 //            foto_view.backgroundColor   = [UIColor greenColor];
 //            thumb_view.backgroundColor  = [UIColor greenColor];
@@ -163,15 +138,20 @@
         [self.thumbsGallery addSubview:thumb_view];
         
         
-        //Init image
-        NSData* imageData = [[NSData alloc]
-                             initWithContentsOfURL:[NSURL
-                                                    URLWithString:[self.fotos_arr objectAtIndex:i]]];
-        UIImage* image = [[UIImage alloc] initWithData:imageData];
+        AsynchronousUIImage *img = [[AsynchronousUIImage alloc] init];
+        [img loadImageFromURL: [self.fotos_arr objectAtIndex:i] ];
+        img.tag = i;
+        img.delegate = self;
         
-        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:i], @"number", image, @"image", nil];
-        
-        [self performSelectorOnMainThread:@selector(displayImage:) withObject:dict waitUntilDone:YES];
+//        //Init image
+//        NSData* imageData = [[NSData alloc]
+//                             initWithContentsOfURL:[NSURL
+//                                                    URLWithString:[self.fotos_arr objectAtIndex:i]]];
+//        UIImage* image = [[UIImage alloc] initWithData:imageData];
+//        
+//        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:i], @"number", image, @"image", nil];
+//        
+//        [self performSelectorOnMainThread:@selector(displayImage:) withObject:dict waitUntilDone:YES];
                 
     }
     
@@ -212,47 +192,6 @@
     [self.fotoGallery scrollRectToVisible:((UIImageView *)[fotos_view_arr objectAtIndex:thumb_number]).frame animated:NO];
 }
 
-- (void) loadView {
-    [super loadView];
-    
-    
-    
-    
-    //Setup fotoGallery
-    self.fotoGallery.delegate                       = self;
-    self.fotoGallery.bounces                        = NO;
-    self.fotoGallery.pagingEnabled                  = YES;
-//    self.fotoGallery.showsHorizontalScrollIndicator = NO;
-    
-    self.fotoGallery.contentSize                    = CGSizeMake(320*3, self.fotoGallery.bounds.size.height);
-
-    //Setup Page Control
-    
-    self.fotoPageControl.numberOfPages              = 3;
-    self.fotoPageControl.currentPage                = 0;
-    
-    //Setup thumbsGallery
-    self.thumbsGallery.delegate                       = self;
-    self.thumbsGallery.bounces                        = NO;
-    self.thumbsGallery.pagingEnabled                  = YES;
-//    self.thumbsGallery.showsHorizontalScrollIndicator = NO;
-    
-    self.thumbsGallery.contentSize                    = CGSizeMake(320*3, self.thumbsGallery.bounds.size.height);
-    
-
-    
-    [self setupTestViews];
-
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-
-    
-}
-
 - (void)displayImage:(NSDictionary *)dict {
     UIImage *img = [dict objectForKey:@"image"];
     int page_number = [[dict objectForKey:@"number"] integerValue];
@@ -271,37 +210,107 @@
     
     [thumb_image_view setImage:img];
     [(UIActivityIndicatorView *)[thumb_view viewWithTag:1] stopAnimating];
+}
+
+#pragma mark -
+#pragma mark - AsynchronousUIImage Protocol
+
+
+
+-(void) imageDidLoad:(AsynchronousUIImage *)anImage{
+    static int number_of_loaded_images = 0;
+    number_of_loaded_images++;
+    
+    int page_number                 = anImage.tag;
+    
+    UIView *foto_view               = (UIView *)[fotos_view_arr objectAtIndex:page_number];
+    UIImageView *foto_image_view    = (UIImageView *)[foto_view viewWithTag:2];
+    
+    UIView *thumb_view              = (UIView *)[thumbs_view_arr objectAtIndex:page_number];
+    UIImageView *thumb_image_view   = (UIImageView *)[thumb_view viewWithTag:2];
+    
+    [foto_image_view setImage:anImage];
+    [(UIActivityIndicatorView *)[foto_view viewWithTag:1] stopAnimating];
+    
+    [thumb_image_view setImage:anImage];
+    [(UIActivityIndicatorView *)[thumb_view viewWithTag:1] stopAnimating];
     
     
-//    NSLog(@"AAA %i",page_number);
+}
+
+#pragma mark -
+#pragma mark - ViewController Methods
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+        
+        fotos_view_arr = [[NSMutableArray alloc] initWithCapacity:8];
+        thumbs_view_arr = [[NSMutableArray alloc] initWithCapacity:8];
+        
+        
+        self.fotos_arr = [[NSMutableArray alloc] initWithObjects:
+                          @"http://cs411029.userapi.com/v411029554/4f36/5PMbyN3AguI.jpg",
+                          @"http://cs411029.userapi.com/v411029554/4f3d/uK2BwS8Ch6g.jpg",
+                          @"http://cs411029.userapi.com/v411029554/4f44/1L7AS6jtC7w.jpg",
+                          @"http://cs411029.userapi.com/v411029554/4f4b/kokt7Q5fbNk.jpg",
+                          @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
+                          @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
+                          @"http://cs411029.userapi.com/v411029554/4f59/8FWzF1T3F-Q.jpg",nil];
+        current_foto = 0;
+    }
+    return self;
+}
+
+- (void) loadView {
+    [super loadView];
     
-//    NSLog(@"Image is loaded!");
-//    UIImageView *test = [[UIImageView alloc] initWithImage:image];
-//    test.contentMode = UIViewContentModeScaleAspectFit;
-////    [self.view addSubview:test];
-//    [act stopAnimating];
+    //Setup fotoGallery
+    self.fotoGallery.delegate                       = self;
+    self.fotoGallery.bounces                        = NO;
+    self.fotoGallery.pagingEnabled                  = YES;
+    //    self.fotoGallery.showsHorizontalScrollIndicator = NO;
+    
+    self.fotoGallery.contentSize                    = CGSizeMake(320*3, self.fotoGallery.bounds.size.height);
+    
+    //Setup Page Control
+    
+    self.fotoPageControl.numberOfPages              = 3;
+    self.fotoPageControl.currentPage                = 0;
+    
+    //Setup thumbsGallery
+    self.thumbsGallery.delegate                       = self;
+    self.thumbsGallery.bounces                        = NO;
+    self.thumbsGallery.pagingEnabled                  = YES;
+    //    self.thumbsGallery.showsHorizontalScrollIndicator = NO;
+    
+    self.thumbsGallery.contentSize                    = CGSizeMake(320*3, self.thumbsGallery.bounds.size.height);
+    
+    [self setupTestViews];
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
 }
 
-- (void)viewDidUnload
-{
-    [self setFotoGallery:nil];
-    [self setThumbsGallery:nil];
-    [self setFotoPageControl:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
+#pragma mark -
+#pragma mark - UIScrollView Methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
     // Update the page when more than 50% of the previous/next page is visible
@@ -313,14 +322,31 @@
         [self setBorderToCurrentThumb:page];
         
         [self.thumbsGallery scrollRectToVisible:((UIImageView *)[thumbs_view_arr objectAtIndex:page]).frame
-                                     animated:NO];
+                                       animated:NO];
     }
 }
 
 
 - (void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-//    NSLog(@"scrollViewDidEndScrollingAnimation");
+    //    NSLog(@"scrollViewDidEndScrollingAnimation");
 }
 
+#pragma mark -
+#pragma mark - Memory Management Methods
+
+- (void)viewDidUnload {
+    [self setFotoGallery:nil];
+    [self setThumbsGallery:nil];
+    [self setFotoPageControl:nil];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+}
 
 @end

@@ -22,7 +22,7 @@
     // Override point for customization after application launch.
     
     KBGalleryViewController *gallery = [[KBGalleryViewController alloc] initWithNibName:@"KBGalleryViewController" bundle:nil];
-        
+            
     [self.window setRootViewController:gallery];
     [self.window makeKeyAndVisible];
     return YES;

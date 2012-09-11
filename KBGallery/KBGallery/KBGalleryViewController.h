@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "AsynchronousUIImage.h"
 
-@interface KBGalleryViewController : UIViewController <UIScrollViewDelegate>
+
+@interface KBGalleryViewController : UIViewController <UIScrollViewDelegate , AsynchronousUIImageDelegate> {
+    
+}
+
+
+
+
 @property (weak, nonatomic) IBOutlet UIScrollView *fotoGallery;
 @property (weak, nonatomic) IBOutlet UIScrollView *thumbsGallery;
 @property (weak, nonatomic) IBOutlet UIPageControl *fotoPageControl;

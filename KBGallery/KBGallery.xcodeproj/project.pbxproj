@@ -18,6 +18,7 @@
 		9574BB4715FDC22F00FEC8BC /* KBGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */; };
 		9574BB4815FDC22F00FEC8BC /* KBGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */; };
 		9574BB6915FE163400FEC8BC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9574BB6715FE162C00FEC8BC /* QuartzCore.framework */; };
+		95F435C015FF230B006B8EFB /* AsynchronousUIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F435BF15FF230B006B8EFB /* AsynchronousUIImage.m */; settings = {COMPILER_FLAGS = " -fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,8 @@
 		9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBGalleryViewController.m; sourceTree = "<group>"; };
 		9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KBGalleryViewController.xib; sourceTree = "<group>"; };
 		9574BB6715FE162C00FEC8BC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		95F435BE15FF230B006B8EFB /* AsynchronousUIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsynchronousUIImage.h; sourceTree = "<group>"; };
+		95F435BF15FF230B006B8EFB /* AsynchronousUIImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsynchronousUIImage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 		956B7F6B15F7B341005AFDF3 /* KBGallery */ = {
 			isa = PBXGroup;
 			children = (
+				95F435BE15FF230B006B8EFB /* AsynchronousUIImage.h */,
+				95F435BF15FF230B006B8EFB /* AsynchronousUIImage.m */,
 				956B7F7415F7B341005AFDF3 /* KBAppDelegate.h */,
 				956B7F7515F7B341005AFDF3 /* KBAppDelegate.m */,
 				956B7F7715F7B341005AFDF3 /* KBGallery.xcdatamodeld */,
@@ -177,6 +182,7 @@
 				956B7F7615F7B341005AFDF3 /* KBAppDelegate.m in Sources */,
 				956B7F7915F7B341005AFDF3 /* KBGallery.xcdatamodeld in Sources */,
 				9574BB4715FDC22F00FEC8BC /* KBGalleryViewController.m in Sources */,
+				95F435C015FF230B006B8EFB /* AsynchronousUIImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
