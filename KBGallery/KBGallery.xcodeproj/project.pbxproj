@@ -17,6 +17,7 @@
 		956B7F7915F7B341005AFDF3 /* KBGallery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 956B7F7715F7B341005AFDF3 /* KBGallery.xcdatamodeld */; };
 		9574BB4715FDC22F00FEC8BC /* KBGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */; };
 		9574BB4815FDC22F00FEC8BC /* KBGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */; };
+		9574BB6915FE163400FEC8BC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9574BB6715FE162C00FEC8BC /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		9574BB4415FDC22F00FEC8BC /* KBGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBGalleryViewController.h; sourceTree = "<group>"; };
 		9574BB4515FDC22F00FEC8BC /* KBGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBGalleryViewController.m; sourceTree = "<group>"; };
 		9574BB4615FDC22F00FEC8BC /* KBGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KBGalleryViewController.xib; sourceTree = "<group>"; };
+		9574BB6715FE162C00FEC8BC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9574BB6915FE163400FEC8BC /* QuartzCore.framework in Frameworks */,
 				956B7F6415F7B341005AFDF3 /* UIKit.framework in Frameworks */,
 				956B7F6615F7B341005AFDF3 /* Foundation.framework in Frameworks */,
 				956B7F6815F7B341005AFDF3 /* CoreGraphics.framework in Frameworks */,
@@ -72,6 +75,7 @@
 		956B7F6215F7B341005AFDF3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9574BB6715FE162C00FEC8BC /* QuartzCore.framework */,
 				956B7F6315F7B341005AFDF3 /* UIKit.framework */,
 				956B7F6515F7B341005AFDF3 /* Foundation.framework */,
 				956B7F6715F7B341005AFDF3 /* CoreGraphics.framework */,

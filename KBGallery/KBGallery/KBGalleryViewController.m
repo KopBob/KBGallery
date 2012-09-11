@@ -11,9 +11,10 @@
 @interface KBGalleryViewController () {
     NSMutableArray *fotos_view_arr;
     NSMutableArray *thumbs_view_arr;
+    
+    int current_foto;
 }
 
-@property (nonatomic,strong) UIActivityIndicatorView *act;
 
 @end
 
@@ -21,7 +22,6 @@
 @synthesize fotoGallery;
 @synthesize thumbsGallery;
 @synthesize fotoPageControl;
-@synthesize act;
 
 @synthesize fotos_arr;
 
@@ -44,6 +44,7 @@
                           @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
                           @"http://cs411029.userapi.com/v411029554/4f52/9cAIy-TF9ko.jpg",
                           @"http://cs411029.userapi.com/v411029554/4f59/8FWzF1T3F-Q.jpg",nil];
+        current_foto = 0;
     }
     return self;
 }
@@ -88,6 +89,8 @@
                                                                     foto_rect.size.width,
                                                                     foto_rect.size.height)];
         foto_image_view.userInteractionEnabled    = YES;
+        foto_image_view.contentMode = UIViewContentModeScaleAspectFit;
+        foto_image_view.tag = 2;
         
         //Setup foto_image_view
         //*****************************************************************************************************
@@ -95,10 +98,12 @@
                                                       initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         foto_acivity_view.center = CGPointMake(160, 200);
         [foto_acivity_view startAnimating];
-
+        foto_acivity_view.tag = 1;
+        
         //Add View to foto_view
         [foto_view addSubview:foto_image_view];
         [foto_view addSubview:foto_acivity_view];
+        
         
         
         
@@ -117,7 +122,7 @@
                                                      initWithTarget:self
                                                      action:@selector(thumb_tapped:)];
         [thumb_view addGestureRecognizer:thumb_tap_gesture];
-
+        
         //Setup thumb_image_view
         //*****************************************************************************************************
         UIImageView *thumb_image_view             = [[UIImageView alloc]
@@ -126,32 +131,47 @@
                                                                        thumb_rect.size.width,
                                                                        thumb_rect.size.height)];
         thumb_image_view.userInteractionEnabled   = YES;
-
+        thumb_image_view.contentMode = UIViewContentModeScaleAspectFit;
+        thumb_image_view.tag = 2;
         //Setup foto_image_view
         //*****************************************************************************************************
         UIActivityIndicatorView *thumb_acivity_view = [[UIActivityIndicatorView alloc]
                                                       initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         thumb_acivity_view.center = CGPointMake(40, 30);
         [thumb_acivity_view startAnimating];
+        thumb_acivity_view.tag = 1;
+        
         //Add View to thumb_view
         [thumb_view addSubview:thumb_image_view];
         [thumb_view addSubview:thumb_acivity_view];
         
         
         
-        if (i % 2 == 0) {
-            foto_view.backgroundColor   = [UIColor blackColor];
-            thumb_view.backgroundColor  = [UIColor blackColor];
-        } else {
-            foto_view.backgroundColor   = [UIColor greenColor];
-            thumb_view.backgroundColor  = [UIColor greenColor];
-        }
+        
+//        if (i % 2 == 0) {
+            foto_view.backgroundColor   = [UIColor clearColor];
+            thumb_view.backgroundColor  = [UIColor clearColor];
+//        } else {
+//            foto_view.backgroundColor   = [UIColor greenColor];
+//            thumb_view.backgroundColor  = [UIColor greenColor];
+//        }
         
         [fotos_view_arr addObject:foto_view];
         [thumbs_view_arr addObject:thumb_view];
         
         [self.fotoGallery addSubview:foto_view];
         [self.thumbsGallery addSubview:thumb_view];
+        
+        
+        //Init image
+        NSData* imageData = [[NSData alloc]
+                             initWithContentsOfURL:[NSURL
+                                                    URLWithString:[self.fotos_arr objectAtIndex:i]]];
+        UIImage* image = [[UIImage alloc] initWithData:imageData];
+        
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:i], @"number", image, @"image", nil];
+        
+        [self performSelectorOnMainThread:@selector(displayImage:) withObject:dict waitUntilDone:YES];
                 
     }
     
@@ -162,11 +182,34 @@
 
 }
 
+- (void) setBorderToCurrentThumb:(int)current_thumb_number {
+    
+    if (current_foto == current_thumb_number) return;
+    
+    int previos_thumb_number = current_foto;
+    current_foto = current_thumb_number;
+    
+    UIView *previos_thumb_view = (UIView *)[thumbs_view_arr objectAtIndex:previos_thumb_number];
+    UIView *current_thumb_view = (UIView *)[thumbs_view_arr objectAtIndex:current_thumb_number];
+    
+    //    NSLog(@"Previos %@",previos_thumb_view);
+    //    NSLog(@"Current %@",current_thumb_view);
+    
+    //Work with previos view
+    previos_thumb_view.layer.borderWidth = 0;
+    
+    //Work with current view
+    current_thumb_view.layer.borderWidth = 5;
+    current_thumb_view.layer.borderColor = [[UIColor yellowColor] CGColor];
+}
+
 - (void)thumb_tapped:(UITapGestureRecognizer *) gesture{
     int thumb_number = gesture.view.frame.origin.x / 80;
     
-    [self.fotoGallery scrollRectToVisible:((UIImageView *)[fotos_view_arr objectAtIndex:thumb_number]).frame
-                                 animated:YES];
+    
+    [self setBorderToCurrentThumb:thumb_number];
+    
+    [self.fotoGallery scrollRectToVisible:((UIImageView *)[fotos_view_arr objectAtIndex:thumb_number]).frame animated:NO];
 }
 
 - (void) loadView {
@@ -177,7 +220,7 @@
     
     //Setup fotoGallery
     self.fotoGallery.delegate                       = self;
-    self.fotoGallery.bounces                        = YES;
+    self.fotoGallery.bounces                        = NO;
     self.fotoGallery.pagingEnabled                  = YES;
 //    self.fotoGallery.showsHorizontalScrollIndicator = NO;
     
@@ -190,15 +233,13 @@
     
     //Setup thumbsGallery
     self.thumbsGallery.delegate                       = self;
-    self.thumbsGallery.bounces                        = YES;
+    self.thumbsGallery.bounces                        = NO;
     self.thumbsGallery.pagingEnabled                  = YES;
 //    self.thumbsGallery.showsHorizontalScrollIndicator = NO;
     
     self.thumbsGallery.contentSize                    = CGSizeMake(320*3, self.thumbsGallery.bounds.size.height);
     
-    UIView *test = [[UIView alloc] initWithFrame:CGRectMake(30, 30, 30, 30)];
-    test.backgroundColor = [UIColor redColor];
-    [self.fotoGallery addSubview:test];
+
     
     [self setupTestViews];
 
@@ -208,30 +249,41 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    act = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    [act startAnimating];
 
-    [self.view addSubview:act];
     
 }
 
-- (void)displayImage:(UIImage *)image {
-    NSLog(@"Image is loaded!");
-    UIImageView *test = [[UIImageView alloc] initWithImage:image];
-    test.contentMode = UIViewContentModeScaleAspectFit;
-//    [self.view addSubview:test];
-    [act stopAnimating];
+- (void)displayImage:(NSDictionary *)dict {
+    UIImage *img = [dict objectForKey:@"image"];
+    int page_number = [[dict objectForKey:@"number"] integerValue];
+    
+    UIView *foto_view = (UIView *)[fotos_view_arr objectAtIndex:page_number];
+    UIView *thumb_view = (UIView *)[thumbs_view_arr objectAtIndex:page_number];
+    
+    NSLog(@"%@",foto_view.subviews);
+    
+    UIImageView *foto_image_view = (UIImageView *)[foto_view viewWithTag:2];
+    
+    [foto_image_view setImage:img];
+    [(UIActivityIndicatorView *)[foto_view viewWithTag:1] stopAnimating];
+    
+    UIImageView *thumb_image_view = (UIImageView *)[thumb_view viewWithTag:2];
+    
+    [thumb_image_view setImage:img];
+    [(UIActivityIndicatorView *)[thumb_view viewWithTag:1] stopAnimating];
+    
+    
+//    NSLog(@"AAA %i",page_number);
+    
+//    NSLog(@"Image is loaded!");
+//    UIImageView *test = [[UIImageView alloc] initWithImage:image];
+//    test.contentMode = UIViewContentModeScaleAspectFit;
+////    [self.view addSubview:test];
+//    [act stopAnimating];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
-    
-    NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://cs411029.userapi.com/v411029554/4f3d/uK2BwS8Ch6g.jpg"]];
-    UIImage* image = [[UIImage alloc] initWithData:imageData];
-    
-    [self performSelectorOnMainThread:@selector(displayImage:) withObject:image waitUntilDone:NO];
-    
 }
 
 - (void)viewDidUnload
@@ -257,12 +309,17 @@
         CGFloat pageWidth = sender.frame.size.width;
         int page = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
         self.fotoPageControl.currentPage = page;
+        
+        [self setBorderToCurrentThumb:page];
+        
+        [self.thumbsGallery scrollRectToVisible:((UIImageView *)[thumbs_view_arr objectAtIndex:page]).frame
+                                     animated:NO];
     }
 }
 
 
 - (void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    NSLog(@"scrollViewDidEndScrollingAnimation");
+//    NSLog(@"scrollViewDidEndScrollingAnimation");
 }
 
 
